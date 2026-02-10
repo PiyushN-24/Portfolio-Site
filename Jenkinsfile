@@ -5,6 +5,7 @@ pipeline {
         IMAGE_NAME = "piyushnavghare/portfolio-site"
         TAG = "${BUILD_NUMBER}"
         SONARQUBE_SERVER = "sonar-local"
+        PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
     }
 
     tools {
@@ -24,8 +25,8 @@ pipeline {
         stage('Pre-Commit Security Scan (Gitleaks)') {
             steps {
                 sh '''
-                   /usr/local/bin/pre-commit install || true
-                   /usr/local/bin/pre-commit run --all-files || true
+                   echo "Using pre-commit from: $(which pre-commit)"
+                   pre-commit run --all-files
                 '''
             }
         }
@@ -48,17 +49,13 @@ pipeline {
 
         stage('SonarQube Scan') {
             steps {
-                withSonarQubeEnv('sonar-local') {
-                    sh '''
-                        npm run build
-                        sonar-scanner \
-                          -Dsonar.projectKey=portfolio-site \
-                          -Dsonar.projectName=portfolio-site \
-                          -Dsonar.sources=. \
-                          -Dsonar.host.url=http://localhost:9000 \
-                          -Dsonar.login=$SONAR_AUTH_TOKEN
-                    '''
-                }
+              withSonarQubeEnv('sonar-local') {
+                sh '''
+                 sonar-scanner \
+                  -Dsonar.projectKey=portfolio-site \
+                  -Dsonar.projectName=portfolio-site \
+                  -Dsonar.sources=. 
+                '''
             }
         }
 
