@@ -9,7 +9,7 @@ pipeline {
     }
 
     tools {
-        SonarQubeScanner "sonar-scanner"
+        sonarQubeScanner "sonar-scanner"
         nodejs "nodejs"   
     }
 
