@@ -24,9 +24,8 @@ pipeline {
         stage('Pre-Commit Security Scan (Gitleaks)') {
             steps {
                 sh '''
-                    pip install pre-commit
-                    pre-commit install
-                    pre-commit run --all-files || true
+                   /usr/local/bin/pre-commit install || true
+                   /usr/local/bin/pre-commit run --all-files || true
                 '''
             }
         }
