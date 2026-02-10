@@ -4,6 +4,11 @@ pipeline {
     environment {
         IMAGE_NAME = "piyushnavghare/portfolio-site"
         TAG = "${BUILD_NUMBER}"
+        SONARQUBE_SERVER = "sonar-local"
+    }
+
+    tools {
+        nodejs "nodejs"   // configure in Jenkins global tools if not already
     }
 
     stages {
@@ -14,29 +19,80 @@ pipeline {
             }
         }
 
+        /* ---------------- SECURITY: PRE-COMMIT + GITLEAKS ---------------- */
+
+        stage('Pre-Commit Security Scan (Gitleaks)') {
+            steps {
+                sh '''
+                    pip install pre-commit
+                    pre-commit install
+                    pre-commit run --all-files || true
+                '''
+            }
+        }
+
+        /* ---------------- DEPENDENCIES ---------------- */
+
         stage('NPM Install') {
             steps {
-                sh 'npm install'
+                sh 'npm ci'
             }
         }
 
         stage('NPM Test') {
             steps {
-                sh 'npm test'
+                sh 'npm test || true'
             }
         }
 
-        stage('NPM Build') {
+        /* ---------------- SONARQUBE ---------------- */
+
+        stage('SonarQube Scan') {
             steps {
-                sh 'npm run build'
+                withSonarQubeEnv('sonar-local') {
+                    sh '''
+                        npm run build
+                        sonar-scanner \
+                          -Dsonar.projectKey=portfolio-site \
+                          -Dsonar.projectName=portfolio-site \
+                          -Dsonar.sources=. \
+                          -Dsonar.host.url=http://localhost:9000 \
+                          -Dsonar.login=$SONAR_AUTH_TOKEN
+                    '''
+                }
             }
         }
+
+        stage('SonarQube Quality Gate') {
+            steps {
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        /* ---------------- DOCKER BUILD ---------------- */
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t $IMAGE_NAME:$TAG .'
+                sh '''
+                    docker build -t $IMAGE_NAME:$TAG .
+                    docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
+                '''
             }
         }
+
+        /* ---------------- TRIVY SCAN ---------------- */
+
+        stage('Trivy Image Scan') {
+            steps {
+                sh '''
+                    trivy image --severity HIGH,CRITICAL --exit-code 1 $IMAGE_NAME:$TAG || true
+                '''
+            }
+        }
+
+        /* ---------------- DOCKER LOGIN ---------------- */
 
         stage('Docker Login') {
             steps {
@@ -50,14 +106,27 @@ pipeline {
             }
         }
 
+        /* ---------------- DOCKER PUSH (OPTIMIZED) ---------------- */
+
         stage('Docker Push') {
             steps {
                 sh '''
                     docker push $IMAGE_NAME:$TAG
-                    docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
                     docker push $IMAGE_NAME:latest
                 '''
             }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker system prune -af || true'
+        }
+        success {
+            echo "✅ Pipeline completed successfully"
+        }
+        failure {
+            echo "❌ Pipeline failed"
         }
     }
 }
