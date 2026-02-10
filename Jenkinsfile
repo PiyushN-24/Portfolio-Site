@@ -9,7 +9,8 @@ pipeline {
     }
 
     tools {
-        nodejs "nodejs"   // configure in Jenkins global tools if not already
+        sonarScanner "sonar-scanner"
+        nodejs "nodejs"   
     }
 
     stages {
