@@ -49,13 +49,14 @@ pipeline {
 
         stage('SonarQube Scan') {
             steps {
-              withSonarQubeEnv('sonar-local') {
-                sh '''
-                 sonar-scanner \
-                  -Dsonar.projectKey=portfolio-site \
-                  -Dsonar.projectName=portfolio-site \
-                  -Dsonar.sources=. 
-                '''
+                withSonarQubeEnv('sonar-local') {
+                   sh '''
+                      sonar-scanner \
+                         -Dsonar.projectKey=portfolio-site \
+                         -Dsonar.projectName=portfolio-site \
+                         -Dsonar.sources=. 
+                   '''
+                }
             }
         }
 
