@@ -31,7 +31,7 @@ This project demonstrates how to combine:
 - 📤 Automatic DockerHub image push
 - 🧹 Post-build Docker cleanup
 
-## Pipeline Workflow
+## Jenkins CI Pipeline Architecture
 ![CI Pipeline](/public/images/projects/Portfolio-Site.png)
 
 ## Prerequisites
