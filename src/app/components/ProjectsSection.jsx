@@ -7,6 +7,15 @@ import { motion, useInView } from "framer-motion";
 const projectsData = [
   {
     id: 1,
+    title: "Jenkins CI Pipeline",
+    description: "A production-grade CI pipeline that integrates security and quality checks into every stage of the build process, including secret scanning, testing, code quality analysis, container security scanning, and automated Docker image publishing using Jenkins, SonarQube, Trivy, and Docker.",
+    image: "/images/projects/Portfolio-Site.png",
+    tag: ["All", "DevOps"],
+    gitUrl: "https://github.com/PiyushN-24/Portfolio-Site.git",
+    previewUrl: "https://github.com/PiyushN-24/Portfolio-Site/blob/master/README.md",
+  },
+  {
+    id: 2,
     title: "AWS Resource Audit",
     description: "AWS Resource Audit is a shell script that automates the process of listing various AWS resources across multiple services in a specified region. This tool is ideal for auditing and keeping track of resources such as EC2 instances, S3 buckets, VPCs, and more.",
     image: "/images/projects/1.png",
@@ -15,7 +24,7 @@ const projectsData = [
     previewUrl: "https://github.com/PiyushN-24/AWS-Resourse-Audit/blob/master/README.md",
   },
   {
-    id: 2,
+    id: 3,
     title: "Ansible VM Watch",
     description: "Ansible-VM-Watch is a powerful automation tool designed to monitor the health of AWS-hosted virtual machines. This project combines Ansible, AWS CLI, and Shell scripting to dynamically manage EC2 inventory, inject SSH keys, tag instances, and extract system health metrics like CPU, RAM, and disk usage.",
     image: "/images/projects/3.png",
@@ -24,7 +33,7 @@ const projectsData = [
     previewUrl: "https://github.com/PiyushN-24/Ansible-VM-Watch/blob/master/README.md",
   },
   {
-    id: 3,
+    id: 4,
     title: "Backup Automation Tool",
     description: "The backup_script.sh script is designed to perform backups of a specified directory with optional compression. It supports various compression methods including gzip, bzip2, zip, and xz. The script logs the status of the backup operation and optionally removes old backups.",
     image: "/images/projects/2.jpg",
@@ -33,7 +42,7 @@ const projectsData = [
     previewUrl: "https://github.com/PiyushN-24/BackupAutomationTool/blob/master/README.md",
   },
   {
-    id: 4,
+    id: 5,
     title: "Ansible Monitoring Stack",
     description: "An Ansible-based Monitoring Stack project designed to automate the deployment and configuration of Grafana, Prometheus, Prometheus Node Exporter, and Alertmanager across a set of nodes. This repository aims to simplify infrastructure monitoring using a reliable and scalable solution.",
     image: "/images/projects/4.jpeg",

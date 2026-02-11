@@ -115,6 +115,30 @@ pipeline {
                 '''
             }
         }
+
+        /* --------------- Docker Deploy --------------*/
+
+        stage('Docker Pull Image') {
+            steps {
+                sh '''
+                    echo "Pulling latest image from DockerHub..."
+                    docker pull $IMAGE_NAME:latest
+                '''
+            }
+        }
+
+        stage('Docker Deploy') {
+            steps {
+                sh '''
+                    echo "Starting new container..."
+                    docker run -d \
+                      --name portfolio-site \
+                      -p 3000:3000 \
+                      --restart unless-stopped \
+                      $IMAGE_NAME:latest
+                '''
+            }
+        }
     }
 
     post {

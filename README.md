@@ -1,4 +1,4 @@
-# Portfolio Site – CI Pipeline with Jenkins + Docker + SonarQube + Trivy
+# DevSecOps CI/CD Pipeline
 
 ![Docker](https://img.shields.io/badge/Docker-Container-blue?logo=docker&style=flat-square)
 ![Jenkins](https://img.shields.io/badge/Jenkins-CI%2FCD-red?logo=jenkins&style=flat-square)
@@ -8,7 +8,7 @@
 
 
 ## Overview
-This repository contains a Portfolio Website project integrated with a complete **CI Pipeline** using Jenkins.
+This repository contains a Portfolio Website project integrated with a complete **CI/CD Pipeline** using Jenkins.
 
 The pipeline automatically builds, scans, and publishes the application using modern DevSecOps tools. It is designed to be beginner-friendly and runs entirely on a local setup using Jenkins, Docker, SonarQube, Trivy, and Pre-Commit.
 
