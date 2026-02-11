@@ -31,26 +31,9 @@ This project demonstrates how to combine:
 - 📤 Automatic DockerHub image push
 - 🧹 Post-build Docker cleanup
 
-## Pipeline Flow
-```
-GitHub Repo
-   ↓
-Jenkins Pipeline
-   ↓
-Pre-commit Secret Scan
-   ↓
-npm install + test
-   ↓
-SonarQube Scan
-   ↓
-Quality Gate Check
-   ↓
-Docker Build
-   ↓
-Trivy Scan
-   ↓
-Docker Push
-```
+## Pipeline Workflow
+![CI Pipeline](/public/images/projects/Portfolio-Site.png)
+
 ## Prerequisites
 Install the following tools on your local system:
 
